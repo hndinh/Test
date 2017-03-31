@@ -18,7 +18,7 @@ ANCILECSH.Context = ANCILECSH.Context || new (function(private, public) {
 	
 	private.getAllViews = function() {
 		var allViews = [];
-		for(var iViewRecognizer = 0; iViewRecognizer < ANCILECSH.Configuration.Context.ViewRecognizer.length; iViewRecognizer++){
+		for(var iViewRecognizer = 0; iViewRecognizer < ANCILECSH.Configuration.Context.ViewRecognizers.length; iViewRecognizer++){
 			$(ANCILECSH.Configuration.Context.ViewRecognizers[iViewRecognizer].Pattern).each(function (i, v) {
 				var isInExceptionList = false;
 				for (var j=0; j<ANCILECSH.Configuration.Context.ViewRecognizers[iViewRecognizer].Exceptions.length; j++) {
