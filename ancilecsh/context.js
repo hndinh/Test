@@ -18,35 +18,37 @@ ANCILECSH.Context = ANCILECSH.Context || new (function(private, public) {
 	
 	private.getAllViews = function() {
 		var allViews = [];
-		$(ANCILECSH.Configuration.Context.ViewRecognizer.Pattern).each(function (i, v) {
-			var isInExceptionList = false;
-			for (var j=0; j<ANCILECSH.Configuration.Context.ViewRecognizer.Exceptions.length; j++) {
-				if (ANCILECSH.Configuration.Context.ViewRecognizer.Exceptions[j].indexOf(">") === 0 || 
-					ANCILECSH.Configuration.Context.ViewRecognizer.Exceptions[j].indexOf(" ") === 0) { 
-					// Exception selector starts with '>' or ' ' then it is on child of current element
-					// Note: '>' is any direct child, ' ' is any descendant
-					if ($("#" + v.id + ANCILECSH.Configuration.Context.ViewRecognizer.Exceptions[j]).length > 0) {
-						isInExceptionList = true;
-						break;
+		for(var iViewRecognizer = 0; iViewRecognizer < ANCILECSH.Configuration.Context.ViewRecognizer.length; iViewRecognizer++){
+			$(ANCILECSH.Configuration.Context.ViewRecognizers[iViewRecognizer].Pattern).each(function (i, v) {
+				var isInExceptionList = false;
+				for (var j=0; j<ANCILECSH.Configuration.Context.ViewRecognizers[iViewRecognizer].Exceptions.length; j++) {
+					if (ANCILECSH.Configuration.Context.ViewRecognizers[iViewRecognizer].Exceptions[j].indexOf(">") === 0 || 
+						ANCILECSH.Configuration.Context.ViewRecognizers[iViewRecognizer].Exceptions[j].indexOf(" ") === 0) { 
+						// Exception selector starts with '>' or ' ' then it is on child of current element
+						// Note: '>' is any direct child, ' ' is any descendant
+						if ($("#" + v.id + ANCILECSH.Configuration.Context.ViewRecognizers[iViewRecognizer].Exceptions[j]).length > 0) {
+							isInExceptionList = true;
+							break;
+						}
+					}
+					else {
+						 // Otherwise, it is on parent or same current element
+						if ($(ANCILECSH.Configuration.Context.ViewRecognizers[iViewRecognizer].Exceptions[j] + "#" + v.id).length > 0) {
+							isInExceptionList = true;
+							break;
+						}
 					}
 				}
-				else {
-					 // Otherwise, it is on parent or same current element
-					if ($(ANCILECSH.Configuration.Context.ViewRecognizer.Exceptions[j] + "#" + v.id).length > 0) {
-						isInExceptionList = true;
-						break;
+				if (!isInExceptionList) {
+					var view = sap.ui.getCore().byId(v.id);
+					if (view !== undefined && view !== null) {
+						if (view instanceof sap.ui.core.mvc.View) {
+							allViews.push(view);
+						}
 					}
 				}
-			}
-			if (!isInExceptionList) {
-				var view = sap.ui.getCore().byId(v.id);
-				if (view !== undefined && view !== null) {
-					if (view instanceof sap.ui.core.mvc.View) {
-						allViews.push(view);
-					}
-				}
-			}
-		});
+			});
+		}	
 		return allViews;
 	};
 	
