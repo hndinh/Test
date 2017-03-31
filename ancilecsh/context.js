@@ -49,17 +49,18 @@ ANCILECSH.Context = ANCILECSH.Context || new (function(private, public) {
 				}
 			});
 		}	*/
-		$("div").each(function(v,i){
-			if(v.id && v.id != "")
+		var allDivs = $("div");
+		for(var i = 0; i < allDivs.length; i ++){
+			if(allDivs[i].id && allDivs[i].id != "")
 			{
-				var view = sap.ui.getCore().byId(v.id);
+				var view = sap.ui.getCore().byId(allDivs[i].id);
 				if(view !== undefined && view !== null){
 					if(view instanceof sap.ui.core.mvc.View){
 						allViews.push(view);
 					}
 				}
 			}
-		});
+		}
 		return allViews;
 	};
 	
