@@ -59,14 +59,20 @@
         }
 	},
 	"Context": {
-		"ViewRecognizer": {
-			"Pattern": "*[class*='sapUiView']:visible",
-			"Exceptions": [
-				">*[class*='sapUshellTileBase']",
-				"*[class*='sapCODHomePageBaseOuterTilePattern']",
-				"*[class*='sapUshellTile']>"
-			]
-		}
+		"ViewRecognizers": [
+			{
+				"Pattern": "*[class*='sapUiView']:visible",
+				"Exceptions": [
+					">*[class*='sapUshellTileBase']",
+					"*[class*='sapUshellTile']>"
+					]
+			},
+			{
+				"Pattern": "*[class*='sapCODHomePageBaseOuterTilePattern']:visible",
+				"Exceptions": [
+					]
+			}
+		]
 	},
 	"Monitoring": {
 		"EventFrequency": 100,
