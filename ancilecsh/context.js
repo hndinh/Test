@@ -18,7 +18,7 @@ ANCILECSH.Context = ANCILECSH.Context || new (function(private, public) {
 	
 	private.getAllViews = function() {
 		var allViews = [];
-		for(var iViewRecognizer = 0; iViewRecognizer < ANCILECSH.Configuration.Context.ViewRecognizers.length; iViewRecognizer++){
+		/*for(var iViewRecognizer = 0; iViewRecognizer < ANCILECSH.Configuration.Context.ViewRecognizers.length; iViewRecognizer++){
 			$(ANCILECSH.Configuration.Context.ViewRecognizers[iViewRecognizer].Pattern).each(function (i, v) {
 				var isInExceptionList = false;
 				for (var j=0; j<ANCILECSH.Configuration.Context.ViewRecognizers[iViewRecognizer].Exceptions.length; j++) {
@@ -48,7 +48,18 @@ ANCILECSH.Context = ANCILECSH.Context || new (function(private, public) {
 					}
 				}
 			});
-		}	
+		}	*/
+		$("div").each(function(v,i){
+			if(v.id && v.id != "")
+			{
+				var view = sap.ui.getCore().byId(v.id);
+				if(view !== undefined && view !== null){
+					if(view instanceof sap.ui.core.mvc.View){
+						allViews.push(view);
+					}
+				}
+			}
+		});
 		return allViews;
 	};
 	
