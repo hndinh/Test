@@ -1,0 +1,29 @@
+{
+	"ApplicationDefinition": {
+		"Id": "0000",
+		"Description": "Sap Fiori Launchpad",
+		"Properties": [{
+			"jQuerySelector": "*[id*='sap-ui-bootstrap']"
+		}, {
+			"jQuerySelector": "*[data-sap-ui-libs*='sap.fiori']"
+		}],
+		"HelpButton": {
+			"Position": "*[id*='shell-header']",
+			"Fragment": {
+				"XML": "<ShellHeadItem xmlns='sap.ushell.ui.shell' id='%ID%'></ShellHeadItem>",
+				"PlacementMethod": {
+					"Name": "addHeadEndItem"
+				},
+				"SetIconMethod": {
+					"Name": "setIcon"
+				},
+				"SetTooltipMethod": {
+					"Name": "setTooltip"
+				},
+				"AttachPressMethod": {
+					"Name": "attachPress"
+				}
+			}
+		}
+	}
+}

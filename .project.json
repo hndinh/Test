@@ -1,0 +1,46 @@
+{
+  "projectType": [
+    "sap.watt.uitools.ide.fiori",
+    "com.watt.common.builder.sapui5clientbuild"
+  ],
+  "build": {
+    "targetFolder": "dist",
+    "sourceFolder": "ancilecsh",
+    "buildRequired": true,
+    "lastBuildDateTime": "Mon, 29 Aug 2016 16:58:37 GMT"
+  },
+  "generation": [
+    {
+      "templateId": "ui5template.basicSAPUI5ApplicationProject",
+      "templateVersion": "1.32.0",
+      "dateTimeStamp": "Thu, 10 Mar 2016 16:08:56 GMT"
+    },
+    {
+      "templateId": "ui5template.basicSAPUI5ApplicationComponent",
+      "templateVersion": "1.4.0",
+      "dateTimeStamp": "Tue, 05 Apr 2016 04:51:41 GMT"
+    }
+  ],
+  "translation": {
+    "translationDomain": "",
+    "supportedLanguages": "en,fr,de",
+    "defaultLanguage": "en",
+    "defaultI18NPropertyFile": "i18n.properties",
+    "resourceModelName": "i18n"
+  },
+  "hcpdeploy": {
+    "account": "p1940235714trial",
+    "name": "sapui5csh",
+    "lastVersionWeTriedToDeploy": "1.0.568"
+  },
+  "basevalidator": {
+    "validators": [
+      {
+        "validatorID": "jsValidator"
+      }
+    ],
+    "services": {
+      "js": "jsValidator"
+    }
+  }
+}

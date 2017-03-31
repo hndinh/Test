@@ -1,0 +1,77 @@
+{
+	"HelpServer": {
+		"URL": "https://azrdevvmn3480.ancile.com/gm/1.11.1601?csh="
+	},
+	"HelpButton": {
+		"Mode": "float",
+		"Text": "ancileHelpButtonText",
+		"Icon": "sap-icon://question-mark",
+		"Width": "40px",
+		"Height": "40px",
+		"SnapToLeftAndRightEdges": true,
+		"Direction": "right",
+		"Position": "50%",
+		"BorderRadius": "50%",
+		"RememberLastPosition": false
+	},
+	"HelpPanel": {
+		"Mode": "dock",
+		"FollowHelpButton": false,
+		"Title": "ancileHelpPanelTitle",
+		"CloseButton": {
+			"Icon": "sap-icon://decline",
+			"Text": "ancileHelpPanelCloseButtonText"
+		},
+		"SwitchModeButton": {
+            "Icon": "sap-icon://menu2",
+			"Text": "ancileHelpPanelSwitchModeButtonText",
+			"DropDown": {
+                "DockModeMenuItem": {
+                    "Icon": "img/dock.png",
+                    "Text": "ancileHelpPanelDockModeMenuItemText"
+                },
+                "FloatModeMenuItem": {
+                    "Icon": "img/float.png",
+                    "Text": "ancileHelpPanelFloatModeMenuItemText"
+                },
+                "PopoutModeMenuItem": {
+                    "Icon": "img/popout.png",
+                    "Text": "ancileHelpPanelPopoutModeMenuItemText"
+                }
+			}
+		},
+		"Width": "30%",
+		"Height": "70%",
+		"RememberLastPosition": false,
+		"RememberLastSize": false
+	},
+	"ShiftApp": {
+        "UiArea": "*[id][data-sap-ui-area][id!='ancile-help-panel'][id!='ancile-help-button'][id!='sap-ui-static']:visible",
+        "SapUiCommons": {
+            "ShiftElements": [
+                " .sapUiUx3Shell>"
+            ]
+        },
+        "SapM": {
+            "ShiftElements": [
+                ""
+            ]
+        }
+	},
+	"Context": {
+		"ViewRecognizer": {
+			"Pattern": "*[class*='sapUiView']:visible",
+			"Exceptions": [
+				">*[class*='sapUshellTileBase']",
+				"*[class*='sapUshellTile']>"
+			]
+		}
+	},
+	"Monitoring": {
+		"EventFrequency": 100,
+		"UiElements": [
+			"*[class*='sapUiView']",
+			"*[class*='Dialog'][role*='dialog']"
+		]
+	}
+}

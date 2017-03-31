@@ -1,0 +1,58 @@
+<mvc:View xmlns:html="http://www.w3.org/1999/xhtml" xmlns:mvc="sap.ui.core.mvc" xmlns="sap.m" controllerName="ancilecsh.controller.View1">
+	<App>
+		<pages>
+			<Page title="{i18n>ancileHelpPanelTitle}">
+				<content>
+				    <Panel id="__panel0" headerText="Configuration" expandable="true" expanded="true">
+				    <content>
+				        <Panel id="__panel1" headerText="Help Server" expandable="true" expanded="true">
+				            <content>
+				                <TextArea wrapping="Off" id="__txtJsonHelpServer" width="100%" rows="4"/>
+				            </content>
+				        </Panel>
+				        <Panel xmlns="sap.m" xmlns:html="http://www.w3.org/1999/xhtml" xmlns:mvc="sap.ui.core.mvc" id="__panel1_copy" headerText="Help Button" expandable="true" expanded="true">
+				            <content>
+				                <TextArea wrapping="Off" id="__txtJsonHelpButton" width="100%" rows="13"/>
+				                
+				            </content>
+				            
+				        </Panel>
+				        <Panel xmlns="sap.m" xmlns:html="http://www.w3.org/1999/xhtml" xmlns:mvc="sap.ui.core.mvc" id="__panel1_copy2" headerText="Help Panel" expandable="true" expanded="true">
+				            <content>
+				                <TextArea wrapping="Off" id="__txtJsonHelpPanel" width="100%" rows="24"/>
+				                
+				            </content>
+				            
+				        </Panel>
+				        <Panel xmlns="sap.m" xmlns:html="http://www.w3.org/1999/xhtml" xmlns:mvc="sap.ui.core.mvc" id="__panel1_copy5" headerText="Shift App" expandable="true" expanded="true">
+				            <content>
+				                <TextArea wrapping="Off" id="__txtJsonShiftApp" width="100%" rows="15"/>
+				                
+				            </content>
+				            
+				        </Panel>
+				        <Panel xmlns="sap.m" xmlns:html="http://www.w3.org/1999/xhtml" xmlns:mvc="sap.ui.core.mvc" id="__panel1_copy4" headerText="Context" expandable="true" expanded="true">
+				            <content>
+				                <TextArea wrapping="Off" id="__txtJsonContext" width="100%" rows="9"/>
+				                
+				            </content>
+				            
+				        </Panel>
+				        <Panel xmlns="sap.m" xmlns:html="http://www.w3.org/1999/xhtml" xmlns:mvc="sap.ui.core.mvc" id="__panel1_copy3" headerText="Monitoring" expandable="true" expanded="true">
+				            <content>
+				                <TextArea wrapping="Off" id="__txtJsonMonitoring" width="100%" rows="8"/>
+				                
+				            </content>
+				            
+				        </Panel>
+				    </content>
+				    </Panel>
+				    <Panel xmlns:html="http://www.w3.org/1999/xhtml" xmlns:mvc="sap.ui.core.mvc" xmlns="sap.m" id="__panel3" headerText="Applications" expandable="true"/>
+				</content>
+			<headerContent>
+			    <Button id="__save" icon="sap-icon://accept" press="onsave"/>
+			</headerContent>
+			</Page>
+		</pages>
+	</App>
+</mvc:View>
