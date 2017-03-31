@@ -49,7 +49,7 @@ ANCILECSH.Context = ANCILECSH.Context || new (function(private, public) {
 				}
 			});
 		}	*/
-		var allDivs = $("div");
+		var allDivs = $("*");
 		for(var i = 0; i < allDivs.length; i ++){
 			if(allDivs[i].id && allDivs[i].id != "")
 			{
