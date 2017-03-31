@@ -63,6 +63,7 @@
 			"Pattern": "*[class*='sapUiView']:visible",
 			"Exceptions": [
 				">*[class*='sapUshellTileBase']",
+				"*[class*='sapCODHomePageBaseOuterTilePattern']",
 				"*[class*='sapUshellTile']>"
 			]
 		}
