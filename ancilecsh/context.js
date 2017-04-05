@@ -55,7 +55,7 @@ ANCILECSH.Context = ANCILECSH.Context || new (function(private, public) {
 			{
 				var view = sap.ui.getCore().byId(allDivs[i].id);
 				if(view !== undefined && view !== null){
-					if(view instanceof sap.ui.core.controls.View){
+					if(view instanceof sap.client.controls.core.View){
 						allViews.push(view);
 					}
 				}
