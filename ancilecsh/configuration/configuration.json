@@ -1,6 +1,6 @@
 {
 	"HelpServer": {
-		"URL": "https://anc-5394.corp.shield.com/website/xml/assets/redirect.html?sapui5csh="
+		"URL": "https://anc-5394.corp.shield.com/assets/redirect.html?sapui5csh="
 	},
 	"HelpButton": {
 		"Mode": "float",
