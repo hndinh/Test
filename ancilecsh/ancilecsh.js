@@ -176,20 +176,26 @@ var ANCILECSH = ANCILECSH || new (function(private, public) {
 				// Init constants
 				ANCILECSH.Constants.init();
 				// Init configuration
-				ANCILECSH.loadJSON("configuration/configuration.json", function(json) {
-					ANCILECSH.Configuration.HelpButton = json.HelpButton;
-					ANCILECSH.Configuration.HelpPanel = json.HelpPanel;
-					ANCILECSH.Configuration.HelpServer = json.HelpServer;
-					ANCILECSH.Configuration.ShiftApp = json.ShiftApp;
-					ANCILECSH.Configuration.Context = json.Context;
-					ANCILECSH.Configuration.Monitoring = json.Monitoring;
-					ANCILECSH.configuration.init();
-					private.continueInit();
-					private.IsInitialized = true;
-					// Display initialized object in console
-					ANCILECSH.Console.debug(ANCILECSH);
-
-				});
+				ANCILECSH.configuration.init();
+				//private.continueInit();
+				ANCILECSH.Utilities.init();
+				// Init globalization
+				ANCILECSH.Globalization.init();
+				// Init application recognizer
+				ANCILECSH.ApplicationRecognizer.init();
+				// Init context
+				ANCILECSH.Context.init();
+				// Init help button
+				ANCILECSH.HelpButton.init();
+				// Init help panel
+				ANCILECSH.HelpPanel.init();
+				// Init monitoring
+				ANCILECSH.Monitoring.init();
+				// Load stylesheet
+				private.loadStylesheet();
+				private.IsInitialized = true;
+				// Display initialized object in console
+				ANCILECSH.Console.debug(ANCILECSH);
 			});
 		}
 		catch (err) {
