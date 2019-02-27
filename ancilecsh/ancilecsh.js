@@ -153,7 +153,7 @@ var ANCILECSH = ANCILECSH || new (function(private, public) {
 						|| (ANCILECSH.Configuration.HelpButton.DisableInOs == "linux" && sap.ui.Device.os.linux)
 						|| (ANCILECSH.Configuration.HelpButton.DisableInOs == "macintosh" && sap.ui.Device.os.macintosh)
 						|| (ANCILECSH.Configuration.HelpButton.DisableInOs == "windows" && sap.ui.Device.os.windows)
-						|| (ANCILECSH.Configuration.HelpButton.DisableInOs == "windows_phone" && sap.ui.Device.os.windows_phone) {
+						|| (ANCILECSH.Configuration.HelpButton.DisableInOs == "windows_phone" && sap.ui.Device.os.windows_phone)) {
 						bContinue = false;
 					}
 				}
