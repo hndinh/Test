@@ -12,8 +12,7 @@
 		"Direction": "right",
 		"Position": "50%",
 		"BorderRadius": "50%",
-		"RememberLastPosition": false,
-		"DisableInOs": "windows"
+		"RememberLastPosition": false
 	},
 	"HelpPanel": {
 		"Mode": "dock",
