@@ -13,7 +13,7 @@
 		"Position": "50%",
 		"BorderRadius": "50%",
 		"RememberLastPosition": false,
-		"DisableInOs": "windows",
+		"DisableInOs": "windows"
 	},
 	"HelpPanel": {
 		"Mode": "dock",
