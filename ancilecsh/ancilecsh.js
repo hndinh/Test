@@ -58,6 +58,39 @@ var ANCILECSH = ANCILECSH || new (function(private, public) {
 			ANCILECSH.loadCSS("css/ancilecsh.css");
 		}
 	};
+	private.continueInit = function() {
+		if (ANCILECSH.Configuration.HelpButton.DisableInOs) {
+					ANCILECSH.Console.debug(ANCILECSH.Configuration.HelpButton.DisableInOs);
+					ANCILECSH.Console.debug(sap.ui.Device.os.name);
+					if((ANCILECSH.Configuration.HelpButton.DisableInOs == "ios" && sap.ui.Device.os.ios)
+						|| (ANCILECSH.Configuration.HelpButton.DisableInOs == "blackberry" && sap.ui.Device.os.blackberry)
+						|| (ANCILECSH.Configuration.HelpButton.DisableInOs == "android" && sap.ui.Device.os.android)
+						|| (ANCILECSH.Configuration.HelpButton.DisableInOs == "linux" && sap.ui.Device.os.linux)
+						|| (ANCILECSH.Configuration.HelpButton.DisableInOs == "macintosh" && sap.ui.Device.os.macintosh)
+						|| (ANCILECSH.Configuration.HelpButton.DisableInOs == "windows" && sap.ui.Device.os.windows)
+						|| (ANCILECSH.Configuration.HelpButton.DisableInOs == "windows_phone" && sap.ui.Device.os.windows_phone)) {
+						bContinue = false;
+					}
+				}
+				if(bContinue){
+					// Init utilities
+					ANCILECSH.Utilities.init();
+					// Init globalization
+					ANCILECSH.Globalization.init();
+					// Init application recognizer
+					ANCILECSH.ApplicationRecognizer.init();
+					// Init context
+					ANCILECSH.Context.init();
+					// Init help button
+					ANCILECSH.HelpButton.init();
+					// Init help panel
+					ANCILECSH.HelpPanel.init();
+					// Init monitoring
+					ANCILECSH.Monitoring.init();
+					// Load stylesheet
+					private.loadStylesheet();
+				}
+	}
     
     private.loadDependencies = function(dependencies, fn) {
     	if (dependencies && dependencies.length && dependencies.length > 0) {
@@ -133,6 +166,7 @@ var ANCILECSH = ANCILECSH || new (function(private, public) {
 		private.IsInitialized = false;
 		// Load console
 		private.loadConsole();
+		ANCILE.
 		// Cache current location
 		ANCILECSH.CurrentLocation = private.getCurrentLocation();
 		//
@@ -143,38 +177,8 @@ var ANCILECSH = ANCILECSH || new (function(private, public) {
 				// Init constants
 				ANCILECSH.Constants.init();
 				// Init configuration
-				ANCILECSH.Configuration.init();
-				if (ANCILECSH.Configuration.HelpButton.DisableInOs) {
-					ANCILECSH.Console.debug(ANCILECSH.Configuration.HelpButton.DisableInOs);
-					ANCILECSH.Console.debug(sap.ui.Device.os.name);
-					if((ANCILECSH.Configuration.HelpButton.DisableInOs == "ios" && sap.ui.Device.os.ios)
-						|| (ANCILECSH.Configuration.HelpButton.DisableInOs == "blackberry" && sap.ui.Device.os.blackberry)
-						|| (ANCILECSH.Configuration.HelpButton.DisableInOs == "android" && sap.ui.Device.os.android)
-						|| (ANCILECSH.Configuration.HelpButton.DisableInOs == "linux" && sap.ui.Device.os.linux)
-						|| (ANCILECSH.Configuration.HelpButton.DisableInOs == "macintosh" && sap.ui.Device.os.macintosh)
-						|| (ANCILECSH.Configuration.HelpButton.DisableInOs == "windows" && sap.ui.Device.os.windows)
-						|| (ANCILECSH.Configuration.HelpButton.DisableInOs == "windows_phone" && sap.ui.Device.os.windows_phone)) {
-						bContinue = false;
-					}
-				}
-				if(bContinue){
-					// Init utilities
-					ANCILECSH.Utilities.init();
-					// Init globalization
-					ANCILECSH.Globalization.init();
-					// Init application recognizer
-					ANCILECSH.ApplicationRecognizer.init();
-					// Init context
-					ANCILECSH.Context.init();
-					// Init help button
-					ANCILECSH.HelpButton.init();
-					// Init help panel
-					ANCILECSH.HelpPanel.init();
-					// Init monitoring
-					ANCILECSH.Monitoring.init();
-					// Load stylesheet
-					private.loadStylesheet();
-				}
+				ANCILECSH.Configuration.init(private.continueInit);
+				
 				// Done
 				private.IsInitialized = true;
 				// Display initialized object in console
