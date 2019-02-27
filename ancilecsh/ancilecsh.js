@@ -176,7 +176,7 @@ var ANCILECSH = ANCILECSH || new (function(private, public) {
 				// Init constants
 				ANCILECSH.Constants.init();
 				// Init configuration
-				ANCILECSH.configuration.init();
+				ANCILECSH.Configuration.init();
 				//private.continueInit();
 				ANCILECSH.Utilities.init();
 				// Init globalization
