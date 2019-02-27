@@ -10,7 +10,7 @@ ANCILECSH.Configuration = ANCILECSH.Configuration || new (function(private, publ
 	
 	public = this;
 	
-	public.init = function() {
+	public.init = function(continueInit) {
 		// Load basic configuration.json
 		ANCILECSH.loadJSON("configuration/configuration.json", function(json) {
 			ANCILECSH.Configuration.HelpButton = json.HelpButton;
@@ -19,6 +19,9 @@ ANCILECSH.Configuration = ANCILECSH.Configuration || new (function(private, publ
 			ANCILECSH.Configuration.ShiftApp = json.ShiftApp;
 			ANCILECSH.Configuration.Context = json.Context;
 			ANCILECSH.Configuration.Monitoring = json.Monitoring;
+			if(continueInit){
+				continueInit();
+			}
 		});
 		// Load applicationdefinitions.json
 		ANCILECSH.loadJSON("configuration/applications.json", function(json1) {
