@@ -183,12 +183,13 @@ var ANCILECSH = ANCILECSH || new (function(private, public) {
 					ANCILECSH.Configuration.ShiftApp = json.ShiftApp;
 					ANCILECSH.Configuration.Context = json.Context;
 					ANCILECSH.Configuration.Monitoring = json.Monitoring;
+					ANCILECSH.configuration.init();
 					private.continueInit();
 					private.IsInitialized = true;
 					// Display initialized object in console
 					ANCILECSH.Console.debug(ANCILECSH);
 
-				}
+				});
 			});
 		}
 		catch (err) {
