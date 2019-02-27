@@ -176,12 +176,19 @@ var ANCILECSH = ANCILECSH || new (function(private, public) {
 				// Init constants
 				ANCILECSH.Constants.init();
 				// Init configuration
-				ANCILECSH.Configuration.init(private.continueInit);
-				
-				// Done
-				private.IsInitialized = true;
-				// Display initialized object in console
-				ANCILECSH.Console.debug(ANCILECSH);
+				ANCILECSH.loadJSON("configuration/configuration.json", function(json) {
+					ANCILECSH.Configuration.HelpButton = json.HelpButton;
+					ANCILECSH.Configuration.HelpPanel = json.HelpPanel;
+					ANCILECSH.Configuration.HelpServer = json.HelpServer;
+					ANCILECSH.Configuration.ShiftApp = json.ShiftApp;
+					ANCILECSH.Configuration.Context = json.Context;
+					ANCILECSH.Configuration.Monitoring = json.Monitoring;
+					private.continueInit();
+					private.IsInitialized = true;
+					// Display initialized object in console
+					ANCILECSH.Console.debug(ANCILECSH);
+
+				}
 			});
 		}
 		catch (err) {
