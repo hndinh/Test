@@ -103,10 +103,10 @@ var ANCILECSH = ANCILECSH || new (function(private, public) {
 			// Wait all complete
 			var t = setInterval(function(){
 				if (count === dependencies.length) {
+					clearInterval(t);
 					if (fn) {
 						fn();
 					}
-					clearInterval(t);
 				}
 			}, 100);
     	}
