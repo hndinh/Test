@@ -166,7 +166,6 @@ var ANCILECSH = ANCILECSH || new (function(private, public) {
 		private.IsInitialized = false;
 		// Load console
 		private.loadConsole();
-		ANCILE.
 		// Cache current location
 		ANCILECSH.CurrentLocation = private.getCurrentLocation();
 		//
