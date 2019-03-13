@@ -1,19 +1,16 @@
 {
 	"ApplicationDefinition": {
-		"Id": "5000",
-		"Description": "New Sap Ui Commons Application",
-		"Properties": [
-			{
-				"jQuerySelector": "*[id*='sap-ui-bootstrap']"
-			},
-			{
-				"jQuerySelector": "*[data-sap-ui-resourceroots*='sap.suite.ui.commons']"
-			}
-		],
+		"Id": "2000",
+		"Description": "Generic Sap M Application",
+		"Properties": [{
+			"jQuerySelector": "*[id*='sap-ui-bootstrap']"
+		}, {
+			"jQuerySelector": "*[data-sap-ui-libs*='sap.m']"
+		}],
 		"HelpButton": {
-			"Position": "*[class*='sapUiView']>>header",
+			"Position": "*[class*='sapUiView'] header:visible",
 			"Fragment": {
-				"XML": "<Button xmlns='sap.ui.commons' id='%ID%'></Button>",
+				"XML": "<Button xmlns='sap.m' id='%ID%'></Button>",
 				"PlacementMethod": {
 					"Name": "addContentRight"
 				},
