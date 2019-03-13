@@ -1,6 +1,6 @@
 {
 	"ApplicationDefinition": {
-		"Id": "4000",
+		"Id": "5000",
 		"Description": "Generic Sap Ui Commons Application",
 		"Properties": [{
 			"jQuerySelector": "*[id*='sap-ui-bootstrap']"
