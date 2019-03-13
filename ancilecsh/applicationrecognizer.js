@@ -41,6 +41,18 @@ ANCILECSH.ApplicationRecognizer = ANCILECSH.ApplicationRecognizer || new (functi
 					return false; //Break loop application definitions
 				}
 			});
+			if(ANCILECSH.ApplicationRecognizer.LastRecognizedApplication.IsSapM === 'undefined') {
+				ANCILECSH.ApplicationRecognizer.LastRecognizedApplication.LoadedLibraries = sap.ui.getCore().getLoadedLibraries();
+				ANCILECSH.ApplicationRecognizer.LastRecognizedApplication.IsSapM = (app.LoadedLibraries["sap.m"] !== undefined) && ($("*[class*='sapM']").length > 0);
+				ANCILECSH.ApplicationRecognizer.LastRecognizedApplication.IsSapUiCommons = (app.LoadedLibraries["sap.ui.commons"] !== undefined) && (!app.IsSapM);
+				if (ANCILECSH.ApplicationRecognizer.LastRecognizedApplication.IsSapM === true || ANCILECSH.ApplicationRecognizer.LastRecognizedApplication.IsSapUiCommons === true) {
+					ANCILECSH.Console.debug("No application detected!");
+				}
+				else {
+					ANCILECSH.Console.debug("SAP UI5 library has not yet been loaded!");
+					ANCILECSH.ApplicationRecognizer.LastRecognizedApplication = null;
+				}
+			}
 			return ANCILECSH.ApplicationRecognizer.LastRecognizedApplication;
 		}
 		return ANCILECSH.ApplicationRecognizer.LastRecognizedApplication;
