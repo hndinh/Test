@@ -38,10 +38,13 @@ ANCILECSH.ApplicationRecognizer = ANCILECSH.ApplicationRecognizer || new (functi
 						ANCILECSH.Console.debug("SAP UI5 library has not yet been loaded!");
 						ANCILECSH.ApplicationRecognizer.LastRecognizedApplication = null;
 					}
+
 					return false; //Break loop application definitions
+				} else {
+					ANCILECSH.ApplicationRecognizer.LastRecognizedApplication = application;
 				}
 			});
-			if(ANCILECSH.ApplicationRecognizer.LastRecognizedApplication.IsSapM === 'undefined') {
+			if(ANCILECSH.ApplicationRecognizer.LastRecognizedApplication.IsSapM === undefined || ANCILECSH.ApplicationRecognizer.LastRecognizedApplication.IsSapM === null) {
 				ANCILECSH.ApplicationRecognizer.LastRecognizedApplication.LoadedLibraries = sap.ui.getCore().getLoadedLibraries();
 				ANCILECSH.ApplicationRecognizer.LastRecognizedApplication.IsSapM = (app.LoadedLibraries["sap.m"] !== undefined) && ($("*[class*='sapM']").length > 0);
 				ANCILECSH.ApplicationRecognizer.LastRecognizedApplication.IsSapUiCommons = (app.LoadedLibraries["sap.ui.commons"] !== undefined) && (!app.IsSapM);
