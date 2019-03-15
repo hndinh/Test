@@ -46,8 +46,8 @@ ANCILECSH.ApplicationRecognizer = ANCILECSH.ApplicationRecognizer || new (functi
 			});
 			if(ANCILECSH.ApplicationRecognizer.LastRecognizedApplication.IsSapM === undefined || ANCILECSH.ApplicationRecognizer.LastRecognizedApplication.IsSapM === null) {
 				ANCILECSH.ApplicationRecognizer.LastRecognizedApplication.LoadedLibraries = sap.ui.getCore().getLoadedLibraries();
-				ANCILECSH.ApplicationRecognizer.LastRecognizedApplication.IsSapM = (app.LoadedLibraries["sap.m"] !== undefined) && ($("*[class*='sapM']").length > 0);
-				ANCILECSH.ApplicationRecognizer.LastRecognizedApplication.IsSapUiCommons = (app.LoadedLibraries["sap.ui.commons"] !== undefined) && (!app.IsSapM);
+				ANCILECSH.ApplicationRecognizer.LastRecognizedApplication.IsSapM = (ANCILECSH.ApplicationRecognizer.LastRecognizedApplication.LoadedLibraries["sap.m"] !== undefined) && ($("*[class*='sapM']").length > 0);
+				ANCILECSH.ApplicationRecognizer.LastRecognizedApplication.IsSapUiCommons = (ANCILECSH.ApplicationRecognizer.LastRecognizedApplication.LoadedLibraries["sap.ui.commons"] !== undefined) && (!ANCILECSH.ApplicationRecognizer.LastRecognizedApplication.IsSapM);
 				if (ANCILECSH.ApplicationRecognizer.LastRecognizedApplication.IsSapM === true || ANCILECSH.ApplicationRecognizer.LastRecognizedApplication.IsSapUiCommons === true) {
 					ANCILECSH.Console.debug("No application detected!");
 				}
