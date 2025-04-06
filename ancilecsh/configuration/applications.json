@@ -1,9 +1,0 @@
-{
-	"ApplicationDefinitions": [
-		"sap-fiori.json",
-		"hybris-marketing.json",
-		"generic-sap-m-app.json",
-		"generic-sap-ui-commons-app.json",
-		"generic-sap-ui5.json"
-	]
-}
