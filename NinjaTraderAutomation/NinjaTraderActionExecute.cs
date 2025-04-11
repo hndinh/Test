@@ -14,9 +14,11 @@ namespace NinjaTraderAutomation
         private const string NinjaTraderProcessName = "NinjaTrader";
         private const string NinjaTraderWelcomeTitle = "Welcome";
         private const string NinjaTraderMainWindowTitle = "Control Center - Accounts";
-        private const string NinjaTraderWindowTitlePrefix = "Chart - ";
+        private const string NinjaTraderChartWindowTitlePrefix = "Chart - ";
+        private const string NinjaTraderBasicEntryTitlePrefix = "Basic Entry - ";
         private const string SimulationMenuItemName = "Simulation";
         private static IntPtr sTraderWindowHandle;
+        private static IntPtr sBasicEntryWindowHandle;
 
         public static event Action<float, float, float> OnResultUpdate;
         public static Process LaunchNinjaTrader(string ninjaTraderName)
@@ -38,6 +40,11 @@ namespace NinjaTraderAutomation
 
         private static bool CloseWindow(IntPtr hwnd)
         {
+            if(!NativeApiHelper.IsWindowVisible(hwnd))
+            {
+                return false;
+            }
+
             var mainWindowElement = AutomationElement.FromHandle(hwnd);
             if(mainWindowElement == null)
             {
@@ -153,68 +160,77 @@ namespace NinjaTraderAutomation
             mainWindowElement = AutomationElement.FromHandle(ninjaTraderProcess.MainWindowHandle);
             if(SetupConnection(mainWindowElement))
             {
-
-                sTraderWindowHandle = FindTraderWindow(ninjaTraderProcess);
-                MinimizeWindow(ninjaTraderProcess.MainWindowHandle);
-                if(NativeApiHelper.IsWindowVisible(sTraderWindowHandle))
+                FindTraderWindow(ninjaTraderProcess, out IntPtr hTrader, out IntPtr hBasicEntry);
+                if(!NativeApiHelper.IsWindowVisible(hBasicEntry))
                 {
-                    NativeApiHelper.SetWindowPos(sTraderWindowHandle, 0, 0, 0, 1200, 800, NativeApiHelper.SWP_NOZORDER | NativeApiHelper.SWP_SHOWWINDOW);
-                    NativeApiHelper.SetForegroundWindow(sTraderWindowHandle);
+                    SetupBasicEntryWindow(mainWindowElement);
+                    FindTraderWindow(ninjaTraderProcess, out hTrader, out hBasicEntry);
+                }
+                sTraderWindowHandle = hTrader;
+                sBasicEntryWindowHandle = hBasicEntry;
+                MinimizeWindow(ninjaTraderProcess.MainWindowHandle);
+                if(NativeApiHelper.IsWindowVisible(sBasicEntryWindowHandle))
+                {
+                    NativeApiHelper.SetWindowPos(sBasicEntryWindowHandle, 0, 0, 0, 1200, 800, NativeApiHelper.SWP_NOZORDER | NativeApiHelper.SWP_SHOWWINDOW);
+                    NativeApiHelper.SetForegroundWindow(sBasicEntryWindowHandle);
                     Thread.Sleep(1000);
-                    var traderWindowElement = AutomationElement.FromHandle(sTraderWindowHandle);
+                    var traderWindowElement = AutomationElement.FromHandle(sBasicEntryWindowHandle);
                     if(traderWindowElement != null)
                     {
-                        if(SetupTraderWindow(traderWindowElement))
+                        if(!SetupChartWindow(traderWindowElement))
                         {
+                            MessageBox.Show("Failed to setup the Ninja Trader. Pls manually do it.");
                         }
                     }
                 }
             }
         }
 
-        private static bool IsTraderWindow(IntPtr hWnd, int processId)
+        private static void IsTraderWindow(IntPtr hWnd, int processId, ref bool isTrader, ref bool isBasicEntry)
         {
+            isTrader = false;
+            isBasicEntry = false;
             if(!NativeApiHelper.IsWindowVisible(hWnd))
             {
-                return false;
+                return;
             }
             NativeApiHelper.GetWindowThreadProcessId(hWnd, out int pid);
             if(pid != processId)
             {
-                return false;
+                return;
             }
 
             StringBuilder title = new StringBuilder(NativeApiHelper.GetWindowTextLength(hWnd) + 1);
             NativeApiHelper.GetWindowText(hWnd, title, title.Capacity);
             string windowTitle = title.ToString();
-            bool isTrader = windowTitle.StartsWith(NinjaTraderWindowTitlePrefix, StringComparison.InvariantCulture);
-            if(!isTrader && string.Compare(NinjaTraderMainWindowTitle, windowTitle, StringComparison.InvariantCultureIgnoreCase) != 0)
+            isTrader = windowTitle.StartsWith(NinjaTraderChartWindowTitlePrefix, StringComparison.InvariantCulture);
+            isBasicEntry = windowTitle.StartsWith(NinjaTraderBasicEntryTitlePrefix, StringComparison.InvariantCulture);
+            if(!isTrader && !isBasicEntry && string.Compare(NinjaTraderMainWindowTitle, windowTitle, StringComparison.InvariantCultureIgnoreCase) != 0)
             {
                 CloseWindow(hWnd);
             }
-
-            return isTrader;
         }
 
-        private static IntPtr FindTraderWindow(Process ninjaTraderProcess)
+        private static void FindTraderWindow(Process ninjaTraderProcess, out IntPtr hTraderWnd, out IntPtr hBasicEntryWnd)
         {
-            IntPtr hTraderWnd = IntPtr.Zero;
+            IntPtr hTrader = IntPtr.Zero;
+            IntPtr hBasicEntry = IntPtr.Zero;
             NativeApiHelper.EnumWindows(delegate(IntPtr hwnd, IntPtr processId) 
-            { 
-                if(IsTraderWindow(hwnd, (int)processId))
+            {
+                bool isTrader = false, isBasicEntry = false;
+                IsTraderWindow(hwnd, (int)processId, ref isTrader, ref isBasicEntry);
+                if (isTrader && hTrader == IntPtr.Zero)
                 {
-                    if (hTraderWnd == IntPtr.Zero)
-                    {
-                        hTraderWnd = hwnd;
-                    }
-                    else
-                    {
-                        CloseWindow(hwnd);
-                    }
+                    hTrader = hwnd;
+                }
+                else if(isBasicEntry && hBasicEntry == IntPtr.Zero)
+                {
+                    hBasicEntry = hwnd;
                 }
                 return true;
             }, (IntPtr)ninjaTraderProcess.Id);
-            return hTraderWnd;
+            hTraderWnd = hTrader;
+            hBasicEntryWnd = hBasicEntry;
         }
 
         private static bool SetupConnection(AutomationElement mainWindowElement)
@@ -431,7 +447,46 @@ namespace NinjaTraderAutomation
             }
         }
 
-        private static bool SetupTraderWindow(AutomationElement mainWindowElement)
+        private static bool SetupBasicEntryWindow(AutomationElement mainControlCenterElement)
+        {
+            if(mainControlCenterElement == null)
+            {
+                return false;
+            }
+
+            var condition = new AndCondition(
+                new PropertyCondition(AutomationElement.AutomationIdProperty, "ControlCenterMenuItemNew", PropertyConditionFlags.IgnoreCase),
+                new PropertyCondition(AutomationElement.ControlTypeProperty, ControlType.MenuItem, PropertyConditionFlags.None)
+                );
+            var newMenuItem = mainControlCenterElement.FindFirst(TreeScope.Descendants, condition);
+            if (newMenuItem == null)
+            {
+                return false;
+            }
+            if (!newMenuItem.TryGetCurrentPattern(ExpandCollapsePattern.Pattern, out object newMenuItemPattern))
+            {
+                return false;
+            }
+
+            ((ExpandCollapsePattern)newMenuItemPattern).Expand();
+            condition = new AndCondition(
+                new PropertyCondition(AutomationElement.AutomationIdProperty, "ControlCenterMenuItemNewBasicEntry", PropertyConditionFlags.IgnoreCase),
+                new PropertyCondition(AutomationElement.ControlTypeProperty, ControlType.MenuItem, PropertyConditionFlags.None)
+                );
+            var basicEntryMenuItem = mainControlCenterElement.FindFirst(TreeScope.Descendants, condition);
+            if (basicEntryMenuItem == null)
+            {
+                return false;
+            }
+            if (!basicEntryMenuItem.TryGetCurrentPattern(InvokePattern.Pattern, out object invokeMenuItemPattern))
+            {
+                return false;
+            }
+            ((InvokePattern)invokeMenuItemPattern).Invoke();
+            return true; 
+        }
+
+        private static bool SetupChartWindow(AutomationElement mainWindowElement)
         {
             var condition = new AndCondition(
                 new PropertyCondition(AutomationElement.AutomationIdProperty, "ChartWindowInstrumentSelectorMenuItem", PropertyConditionFlags.IgnoreCase),

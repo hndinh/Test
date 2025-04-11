@@ -37,6 +37,7 @@ namespace NinjaTraderAutomation
             this._txtStrategySellShort.Text = AppSettings.Instance.StragegySellShortName;
             this._txtLocalIpAddress.Text = AppSettings.Instance.LocalIpAddress;
             NinjaTraderActionExecute.OnResultUpdate += NinjaTraderActionExecute_OnResultUpdate;
+            OpenTradeCommand();
         }
 
         public delegate void UpdateResultDelegate(float tradeCount, float tradePrice, float tradeProfit);
@@ -72,6 +73,13 @@ namespace NinjaTraderAutomation
             AppSettings.Instance.Save();
         }
 
+        private void OpenTradeCommand()
+        {
+            splitContainer1.Panel1Collapsed = true;
+            splitContainer1.Panel2Collapsed = false;
+            this.Height = 200;
+        }
+
         private void _btnSetup_Click(object sender, EventArgs e)
         {
             this.WindowState = FormWindowState.Minimized;
@@ -93,21 +101,35 @@ namespace NinjaTraderAutomation
         {
             this._startSelling.Enabled = false;
             this._btnStartBuying.Enabled = false;
-            Task.Run(() => { NinjaTraderActionExecute.ProcessCommand(TradeCommand.Create(AppSettings.Instance.InstrumentAutoId, TradeOptions.BuysGoLong)); });
+            if(float.TryParse(this._txtPriceBuy.Text, out float price))
+            {
+                Task.Run(() => { NinjaTraderActionExecute.ProcessCommand(TradeCommand.Create(AppSettings.Instance.InstrumentAutoId, TradeOptions.BuysGoLong, price)); });
+            }
+            else
+            {
+                MessageBox.Show("Pls enter a valid price");
+            }
         }
 
         private void _startSelling_Click(object sender, EventArgs e)
         {
             this._startSelling.Enabled = false;
             this._btnStartBuying.Enabled = false;
-            Task.Run(() => { NinjaTraderActionExecute.ProcessCommand(TradeCommand.Create(AppSettings.Instance.InstrumentAutoId, TradeOptions.SellShort)); });
+            if (float.TryParse(this._txtPriceSell.Text, out float price))
+            {
+                Task.Run(() => { NinjaTraderActionExecute.ProcessCommand(TradeCommand.Create(AppSettings.Instance.InstrumentAutoId, TradeOptions.SellShort, price)); });
+            }
+            else
+            {
+                MessageBox.Show("Pls enter a valid price");
+            }
         }
 
         private void _btnClose_Click(object sender, EventArgs e)
         {
             this._startSelling.Enabled = true;
             this._btnStartBuying.Enabled = true;
-            Task.Run(() => { NinjaTraderActionExecute.ProcessCommand(TradeCommand.Create(AppSettings.Instance.InstrumentAutoId, TradeOptions.Close)); });
+            Task.Run(() => { NinjaTraderActionExecute.ProcessCommand(TradeCommand.Create(AppSettings.Instance.InstrumentAutoId, TradeOptions.Close, 0)); });
         }
 
         private bool _isGetAlert = false;
@@ -125,6 +147,13 @@ namespace NinjaTraderAutomation
                 this._btnGetAlert.Text = "Turn on alert";
                 _locServer.Stop();
             }
+        }
+
+        private void Options_Click(object sender, EventArgs e)
+        {
+            splitContainer1.Panel1Collapsed = false;
+            splitContainer1.Panel2Collapsed = true;
+            this.Height = 300;
         }
     }
 }
